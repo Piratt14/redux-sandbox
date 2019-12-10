@@ -26,18 +26,12 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+//  bindActionCreators берет все экшен криэйторы под теми же именами
+//  эти экшен криэйторы связываются с функцией диспатч и результирующие свойства
+//  присваиваются нашему объекту
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
-    const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
-
-    return {
-        inc,
-        dec,
-        rnd: () => {
-            const randomValue = Math.floor(Math.random()*10);
-            rnd(randomValue);
-        }
-    };
-};
-
+//  если в качестве второго аргумента в connect передать не функцию mapDispatchToProps
+//  а объект actions то она выполнит действие как описано в коде выше
+//  например connect(mapStateToProps, actions)(Counter);
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
