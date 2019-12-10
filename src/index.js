@@ -1,30 +1,20 @@
 import { createStore, bindActionCreators } from 'redux';
 
 import reducer from "./reducer";
-import { inc, dec, rnd } from './actions';
+import * as actions from './actions';
 
 const store = createStore(reducer);
 const { dispatch } = store;
 
-//  самодельная версия функции из библиотеки
-const bindActionCreator = (creator, dispatch) => (...args) => {
-    dispatch(creator(...args));
-};
+const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
 
-const { incDispatch, decDispatch, rndDispatch } = bindActionCreator({
-    incDispatch: inc,
-    decDispatch: dec,
-    rndDispatch: rnd,
-}, dispatch);
+document.getElementById('inc').addEventListener('click', inc);
 
-
-document.getElementById('inc').addEventListener('click', incDispatch);
-
-document.getElementById('dec').addEventListener('click', decDispatch);
+document.getElementById('dec').addEventListener('click', dec);
 
 document.getElementById('rnd').addEventListener('click', () => {
     const payload = Math.floor(Math.random()*10);
-    rndDispatch(payload);
+    rnd(payload);
 });
 
 const update = () => {
